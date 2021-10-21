@@ -10,21 +10,40 @@
     <?php
     require 'auxiliar.php';
 
-    $pdo = conectar();
-    $sent = $pdo->query('SELECT COUNT(*)
-                           FROM emple e
-                      LEFT JOIN depart d
-                             ON e.depart_id = d.id');
-    $count = $sent->fetchColumn();
-    $sent = $pdo->query('SELECT *
-                           FROM emple e
-                      LEFT JOIN depart d
-                             ON e.depart_id = d.id');
-    ?>
+    $nombre = (isset($_GET['nombre'])) ? trim($_GET['nombre']) : null;
+    $denominacion = (isset($_GET['denominacion'])) ? trim($_GET['denominacion']) : null;
 
-    <table border="1">
-        <thead>
-            <th>Nombre</th>
+    $pdo = conectar();
+
+    $query = "FROM emple e
+         LEFT JOIN depart d
+                ON e.depart_id = d.id
+             WHERE preparar(nombre) LIKE preparar('%$nombre%')
+               AND preparar(denominacion) LIKE preparar('%$denominacion%')";
+    $sent = $pdo->query("SELECT COUNT(*) $query");
+    $count = $sent->fetchColumn();
+    $sent = $pdo->query("SELECT * $query");
+    ?>
+    <div>
+        <form action="" method="GET">
+            <div>
+                <label for="nombre">Nombre: </label>
+                <input id="nombre" type="text" name="nombre"
+                       value="<?= $nombre ?>">
+                <label for="denominacion">Departamento: </label>
+                <input id="denominacion" type="text" name="denominacion"
+                       value="<?= $denominacion ?>">
+            </div>
+            <div>
+                <button type="submit">Filtrar</button>
+            </div>
+        </form>
+    </div>
+
+    <div>
+        <table border="1">
+            <thead>
+                <th>Nombre</th>
             <th>Fecha de alta</th>
             <th>Salario</th>
             <th>Departamento</th>
@@ -39,13 +58,14 @@
                     <td><?= $fila['denominacion'] ?></td>
                     <td><?= $fila['localidad'] ?></td>
                 </tr>
-            <?php endforeach ?>
-        </tbody>
-        <tfoot>
-            <td colspan="5">
-                Total de filas: <?= $count ?>
-            </td>
-        </tfoot>
-    </table>
+                <?php endforeach ?>
+            </tbody>
+            <tfoot>
+                <td colspan="5">
+                    Total de filas: <?= $count ?>
+                </td>
+            </tfoot>
+        </table>
+    </div>
 </body>
 </html>
