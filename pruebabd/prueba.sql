@@ -25,6 +25,8 @@ CREATE TABLE emple
   , depart_id bigint        NOT NULL REFERENCES depart (id)
 );
 
+DROP FUNCTION IF EXISTS preparar(text) CASCADE;
+
 CREATE FUNCTION preparar(cadena text) RETURNS text
 LANGUAGE plpgsql as $$
 BEGIN

@@ -8,10 +8,34 @@
 </head>
 <body>
     <?php
-    $id = (isset($_GET['id'])) ? trim($_GET['id']) : null;
+    require 'auxiliar.php';
+
+    if (isset($_POST['id'])) {
+        $id = trim($_POST['id']);
+
+        if (ctype_digit($id)) {
+            $pdo = conectar();
+            $sent = $pdo->prepare('DELETE
+                                    FROM emple
+                                    WHERE id = :id');
+            if ($sent->execute([':id' => $id])
+                && $sent->rowCount() === 1) {
+                // Bien
+            } else {
+                // Mal
+            }
+            header('Location: index.php');
+            return;
+        }
+    } elseif (isset($_GET['id'])) {
+        $id = trim($_GET['id']);
+    } else {
+        header('Location: index.php');
+        return;
+    }
     ?>
     <h3>¿Seguro que desea borrar el empleado?</h3>
-    <form action="index.php" method="POST">
+    <form action="" method="POST">
         <input type="hidden" name="id" value="<?= $id ?>">
         <button type="submit">Sí</button>
         <button><a href="index.php">No</a></button>

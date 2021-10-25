@@ -10,28 +10,10 @@
     <?php
     require 'auxiliar.php';
 
-    $pdo = conectar();
-
-    if (count($_POST) == 1 && isset($_POST['id'])) {
-        $id = trim($_POST['id']);
-
-        if (ctype_digit($id)) {
-            $sent = $pdo->prepare('DELETE
-                                     FROM emple
-                                    WHERE id = :id');
-            if ($sent->execute([':id' => $id])
-                && $sent->rowCount() === 1) { ?>
-                <h3>Se ha borrado correctamente el empleado.</h3><?php
-            } else { ?>
-                <h3>Ha ocurrido un error al borrar el empleado.</h3><?php
-            }
-        }
-    }
 
     $nombre = (isset($_GET['nombre'])) ? trim($_GET['nombre']) : null;
     $denominacion = (isset($_GET['denominacion'])) ? trim($_GET['denominacion']) : null;
     $salario = (isset($_GET['salario'])) ? trim($_GET['salario']) : null;
-
 
     $query = "FROM emple e LEFT JOIN depart d ON e.depart_id = d.id";
 
@@ -59,6 +41,7 @@
         $query .= ' WHERE ' . implode(' AND ', $where);
     }
 
+    $pdo = conectar();
     $sent = $pdo->prepare("SELECT COUNT(*) $query");
     $sent->execute($execute);
     $count = $sent->fetchColumn();
