@@ -16,27 +16,35 @@
 
     $pdo = conectar();
 
-    $query = "FROM emple e
-         LEFT JOIN depart d
-                ON e.depart_id = d.id
-             WHERE preparar(nombre) LIKE preparar(:nombre)
-               AND preparar(denominacion) LIKE preparar(:denominacion)";
-    if (isset($salario)) {
-        $query .= " AND salario::text = :salario";
+    $query = "FROM emple e LEFT JOIN depart d ON e.depart_id = d.id";
+
+    $where = [];
+    $execute = [];
+
+    if (isset($nombre) && $nombre !== '') {
+        $where[] = 'preparar(nombre) LIKE preparar(:nombre)';
+        $execute[':nombre'] = "%$nombre%";
     }
+
+    if (isset($denominacion) && $denominacion !== '') {
+        $where[] = 'preparar(denominacion) LIKE preparar(:denominacion)';
+        $execute[':denominacion'] = "%$denominacion%";
+    }
+
+    if (isset($salario) && $salario !== '') {
+        $where[] = 'salario = :salario';
+        $execute[':salario'] = $salario;
+    }
+
+    if (!empty($where)) {
+        $query .= ' WHERE ' . implode(' AND ', $where);
+    }
+
     $sent = $pdo->prepare("SELECT COUNT(*) $query");
-    $sent->execute([
-        ':nombre' => "%$nombre%",
-        ':denominacion' => "%$denominacion%",
-        ':salario' => $salario,
-    ]);
+    $sent->execute($execute);
     $count = $sent->fetchColumn();
     $sent = $pdo->prepare("SELECT * $query");
-    $sent->execute([
-        ':nombre' => "%$nombre%",
-        ':denominacion' => "%$denominacion%",
-        ':salario' => $salario,
-    ]);
+    $sent->execute($execute);
     ?>
     <div>
         <form action="" method="GET">
