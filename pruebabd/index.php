@@ -104,5 +104,9 @@
             </tfoot>
         </table>
     </div>
+
+    <div>
+        <button><a href="insertar.php">Insertar un nuevo empleado</a></button>
+    </div>
 </body>
 </html>
