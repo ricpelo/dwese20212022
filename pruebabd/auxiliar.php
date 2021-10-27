@@ -22,7 +22,7 @@ function mostrar_error($error, $par)
     }
 }
 
-function mostrar_formulario(array $params, $error)
+function mostrar_formulario(array $params, $error, $update = false)
 {
     extract($params);
     ?>
@@ -53,7 +53,9 @@ function mostrar_formulario(array $params, $error)
                 <?php mostrar_error($error, 'depart_id') ?>
             </div>
             <div>
-                <button type="submit">Insertar</button>
+                <button type="submit">
+                    <?= ($update) ? 'Modificar' : 'Insertar' ?>
+                </button>
                 <button><a href="index.php">Volver</a></button>
             </div>
         </form>
