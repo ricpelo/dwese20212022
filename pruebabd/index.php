@@ -7,10 +7,22 @@
     <title>Empleados</title>
 </head>
 <body>
+    <?php require 'auxiliar.php' ?>
+
+    <form action="expirar_cookie.php">
+        <button type="submit">Expirar</button>
+    </form>
+
+    <?php if (comprobar_cookie()): ?>
+        <div style="background-color: black; color: white; padding: 1em; margin: 5px 0px">
+            <form action="aceptar_cookie.php">
+                Este sitio usa cookies
+                <button type="submit">Aceptar</button>
+            </form>
+        </div>
+    <?php endif ?>
+
     <?php
-    require 'auxiliar.php';
-
-
     $nombre = (isset($_GET['nombre'])) ? trim($_GET['nombre']) : null;
     $denominacion = (isset($_GET['denominacion'])) ? trim($_GET['denominacion']) : null;
     $salario = (isset($_GET['salario'])) ? trim($_GET['salario']) : null;

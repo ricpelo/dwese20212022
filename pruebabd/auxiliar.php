@@ -61,3 +61,8 @@ function mostrar_formulario(array $params, $error, $update = false)
         </form>
     </div><?php
 }
+
+function comprobar_cookie()
+{
+    return !isset($_COOKIE['aceptar_banner']);
+}
