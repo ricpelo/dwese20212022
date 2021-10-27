@@ -1,3 +1,4 @@
+<?php session_start() ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -9,9 +10,27 @@
 <body>
     <?php require 'auxiliar.php' ?>
 
-    <form action="expirar_cookie.php">
+    <?php if (isset($_SESSION['mensaje_error'])): ?>
+        <h2><?= $_SESSION['mensaje_error'] ?></h2>
+        <?php unset($_SESSION['mensaje_error']) ?>
+    <?php endif ?>
+
+    <?php
+    if (!isset($_SESSION['carrito'])) {
+        $_SESSION['carrito'] = [];
+    }
+
+    if (isset($_SESSION['carrito'])) {
+        print_r($_SESSION['carrito']); ?>
+        <form action="vaciar.php">
+            <button type="submit">Vaciar carrito</button>
+        </form><?php
+    }
+    ?>
+
+    <!-- <form action="expirar_cookie.php">
         <button type="submit">Expirar</button>
-    </form>
+    </form> -->
 
     <?php if (comprobar_cookie()): ?>
         <div style="background-color: black; color: white; padding: 1em; margin: 5px 0px">
@@ -108,6 +127,10 @@
                             <form action="modificar.php" method="GET">
                                 <input type="hidden" name="id" value="<?= $fila['id'] ?>">
                                 <button type="submit">Modificar</button>
+                            </form>
+                            <form action="agregar.php" method="GET">
+                                <input type="hidden" name="id" value="<?= $fila['id'] ?>">
+                                <button type="submit">Añadir al carrito</button>
                             </form>
                         </td>
                     </tr>

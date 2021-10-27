@@ -1,3 +1,4 @@
+<?php session_start() ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -16,7 +17,7 @@
 
     if (isset($id)) {
         if (!ctype_digit($id)) {
-            // Error
+            $_SESSION['mensaje_error'] = 'El ID no es correcto.';
             header('Location: index.php');
             return;
         }
