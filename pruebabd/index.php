@@ -10,6 +10,8 @@
 <body>
     <?php require 'auxiliar.php' ?>
 
+    <?php cabecera() ?>
+
     <?php if (isset($_SESSION['mensaje_error'])): ?>
         <h2><?= $_SESSION['mensaje_error'] ?></h2>
         <?php unset($_SESSION['mensaje_error']) ?>

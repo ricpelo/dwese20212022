@@ -36,3 +36,15 @@ END;$$;
 INSERT INTO emple (nombre, fecha_alt, salario, depart_id)
     VALUES ('Manolo', '2019-12-04 17:00:00', 2340.75, 2)
          , ('Rosa', '2020-04-05 14:00:00', 2874.99, 4);
+
+DROP TABLE IF EXISTS usuarios CASCADE;
+
+CREATE TABLE usuarios
+(
+    id bigserial PRIMARY KEY
+  , username varchar(255) NOT NULL UNIQUE
+  , password varchar(255) NOT NULL
+);
+
+INSERT INTO usuarios (username, password)
+VALUES ('admin', crypt('admin', gen_salt('bf', 10)));

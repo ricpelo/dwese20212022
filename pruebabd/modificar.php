@@ -94,6 +94,8 @@
         return;
     }
 
+    cabecera();
+
     mostrar_formulario(
         compact(
             'nombre',
