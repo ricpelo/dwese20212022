@@ -91,3 +91,8 @@ function cabecera()
 
     return $login;
 }
+
+function hh($cadena)
+{
+    return htmlspecialchars($cadena, ENT_QUOTES | ENT_SUBSTITUTE);
+}
