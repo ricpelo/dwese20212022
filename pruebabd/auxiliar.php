@@ -28,6 +28,8 @@ function mostrar_formulario(array $params, $error, $update = false)
     ?>
     <div>
         <form action="" method="POST">
+            <input type="hidden" name="token_csrf"
+                   value="<?= $token_csrf ?>">
             <div>
                 <label for="nombre">Nombre:</label>
                 <input id="nombre" name="nombre" type="text"
