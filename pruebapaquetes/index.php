@@ -1,5 +1,13 @@
 <?php
 
+/**
+ * Genera un PDF.
+ *
+ * @author    Ricardo Pérez
+ * @copyright 2021 Ricardo Pérez <ricardo@iesdonana.org>
+ * @license   GPL-3 https://www.gnu.org/licenses/gpl-3.0.en.html
+ */
+
 use Mpdf\Mpdf;
 
 require 'vendor/autoload.php';
